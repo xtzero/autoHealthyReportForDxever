@@ -1,0 +1,2 @@
+# autoHealthyReportForDxever
+一个在大学印象里自动报平安的东西
