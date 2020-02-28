@@ -1,0 +1,7 @@
+这里是存签到记录的
+
+for check log
+
+文件列表
+checkin_{username}_{Ymd}.log
+存服务器返回结果和短信发送返回结果

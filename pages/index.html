@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自动报平安系统</title>
+    <style>
+        body{
+            padding: 5px 10px;
+        }
+        .loginform, .loginform-line{
+            width: 100%;
+        }
+        .loginform-line{
+            margin-top: 20px;
+        }
+        .loginform-line input{
+            width: 100%;
+            border-style: none;
+            border-bottom: dashed 1px black;
+        }
+        .commitLogin{
+            margin-top: 10px;
+            border: solid 2px tan;
+            text-align: center;
+            color: blue;
+            background-color: tan;
+        }
+
+        .commitLogin:active{
+            color: white;
+            background-color: darkblue;
+        }
+        .loginform-line select {
+            width: 100%;
+        }
+
+        .loginform-line option {
+            width: 100%;
+        }
+        .td{
+            width: 100%;
+            float: right;
+            text-align: right;
+            font-size: 13px;
+            margin: 10px;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">页面越丑，功能越强</h1>
+    <h6 style="text-align: center;font-weight: normal;">这句名言是 NicolasForthZhao 现编的</h6>
+    <h6 style="text-align: center;font-weight: normal;">总之你在这登记一次，每天都会帮你报健康</h6>
+    <h6 style="text-align: center;font-weight: normal;">这个页面这么丑，不代表作者真实水平。</h6>
+    <hr>
+    <h6 style="text-align: center;">重要提示：本工具只作辅助功能使用，如果身体感觉不适，请马上把自己隔离！！！</h6>
+    <h6 style="text-align: center;">春天终将到来，请重视自己身体状况</h6>
+    <h6 style="text-align: center;">你不得病就是最大程度不给社会添乱（也是NicolasForthZhao说的）</h6>
+    <hr>
+    <div class="loginform">
+        <div class="loginform-line">
+            <div class="login-line-label">用户名</div>
+            <input type="text" id="username" placeholder="就是学号拉">
+        </div>
+        <div class="loginform-line">
+            <div class="login-line-label">密码</div>
+            <input type="text" id="password" placeholder="一般是身份证后六位">
+        </div>
+        <div class="commitLogin" id="commitLogin">登录试试</div>
+        <a id="td" class="td">订阅过了，现在要退订 →</a>
+    </div>
+    <div class="loginform">
+        <div class="loginform-line">
+            <div class="login-line-label">当前位置</div>
+            <input type="text" id="curlocation" placeholder="请填写自动签到时要帮你填写的位置">
+        </div>
+        <div class="loginform-line">
+            <div class="login-line-label">3日内是否有出行计划</div>
+            <select name="" id="goout">
+                <option value="1">有</option>
+                <option value="0">无</option>
+            </select>
+        </div>
+        <div class="loginform-line">
+            <div class="login-line-label">健康状况</div>
+            <select name="" id="hp">
+                <option value="1">异常</option>
+                <option value="0">正常</option>
+            </select>
+        </div>
+        <div class="loginform-line">
+            <div class="login-line-label">当前是否有新冠肺炎症状</div>
+            <select name="" id="ncp">
+                <option value="1">有</option>
+                <option value="0">无</option>
+            </select>
+        </div>
+        <div class="loginform-line">
+            <div class="login-line-label">当前是否为疑似或确诊病例</div>
+            <select name="" id="isncp">
+                <option value="1">确诊</option>
+                <option value="2">疑似</option>
+                <option value="0">否</option>
+            </select>
+        </div>
+        <div class="loginform-line">
+            <div class="login-line-label">15日内是否接触过ncp患者</div>
+            <select name="" id="touchncp">
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
+        </div>
+        <div class="loginform-line">
+            <div class="login-line-label">15日内是否去过湖北</div>
+            <select name="" id="hubei">
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
+        </div>
+        <h6>还有个备注，也没啥用，就别填了</h6>
+        <div class="commitLogin" id="commit">设置完了</div>
+    </div>
+    <script>
+        window.onload = function() {
+            document.getElementById('commitLogin').onclick = function() {login()}
+            document.getElementById('td').onclick = function() {td()}
+            document.getElementById('commit').onclick = function() {commit()}
+            
+            function ajax($url, $params, $cb) {}
+            function login() {useless()}
+            function td() {useless()}
+            function commit() {useless()}
+            function useless() {
+                alert('还没做完，不能用，见笑嗷')
+            }
+        }
+    </script>
+</body>
+</html>
