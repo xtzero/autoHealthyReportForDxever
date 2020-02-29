@@ -2,6 +2,7 @@
 header('Access-Control-Allow-Origin:*');
 header('Access-Control-Allow-Methods:POST');
 header('Access-Control-Allow-Headers:x-requested-with,content-type');
+error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
 require_once 'functions.php';
 
 $method = $_GET['f'];
