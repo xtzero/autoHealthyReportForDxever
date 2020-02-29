@@ -72,7 +72,7 @@ foreach($usernameArr as $k => $v) {
         "resEcho" => $resEcho,
         "writeHisLogFile" => $writeHisLogFile
     ]);
-    fputs($logFile, $totalLog);
+    fputs($logFile, $totalLog."\n");
     fclose($hisLogFile);
     echo $totalLog;
 }

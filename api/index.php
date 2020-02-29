@@ -29,37 +29,6 @@ function signin()
     if (empty($params['password'])) {
         ajax([], 400, '没有密码');
     }
-    if (empty($params['mobile'])) {
-        ajax([], 400, '留个手机号，弄成了通知你');
-    }
-    // curlocation: 沈阳市沈北新区
-    // goout: 0
-    // hp: 0
-    // ncp: 0
-    // isncp: 0
-    // touchncp: 0
-    // hubei: 0
-    if(!isset($params['curlocation'])) {
-        ajax([], 400, '当前位置');
-    }
-    if(!isset($params['goout'])) {
-        ajax([], 400, '三日内知否有出行计划？');
-    }
-    if(!isset($params['hp'])) {
-        ajax([], 400, '健康状况？');
-    }
-    if(!isset($params['ncp'])) {
-        ajax([], 400, '当前是否有新冠肺炎症状？');
-    }
-    if(!isset($params['isncp'])) {
-        ajax([], 400, '当前是否为疑似或确诊？');
-    }
-    if(!isset($params['touchncp'])) {
-        ajax([], 400, '15日内是否接触过ncp患者？');
-    }
-    if(!isset($params['hubei'])) {
-        ajax([], 400, '15日内是否去过湖北？');
-    }
 
     $sysConf = include_once('../data/sysconfig/system_config.php');
     $dxeverLogin = curl_post($sysConf['apis']['login'], [
@@ -79,6 +48,24 @@ function signin()
                     ajax([], 500, "大学印象服务器返回错误：{$res['meta']['message']}");
                 }
                 $name = $dxeverMyInfo['data']['name'];
+
+                if (empty($params['mobile'])) {
+                    ajax([
+                        'name' => $name
+                    ], 201, '留个手机号，弄成了通知你');
+                }
+                if(!isset($params['curlocation'])) {
+                    ajax([
+                        'name' => $name
+                    ], 201, '缺少当前位置');
+                }
+                $params['goout'] = 0;
+                $params['hp'] = 0;
+                $params['ncp'] = 0;
+                $params['isncp'] = 0;
+                $params['touchncp'] = 0;
+                $params['hubei'] = 0;
+
                 $sendSms = sendSms_SubscribeSuccess($params['mobile'], $name);
                 $userConfigFilename = '../data/userconfig/user_config_'.$params['username'].'.php';
                 if (!file_exists($userConfigFilename)) {

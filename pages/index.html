@@ -54,10 +54,6 @@
     <h6 style="text-align: center;font-weight: normal;">总之你在这登记一次，每天都会帮你报健康</h6>
     <h6 style="text-align: center;font-weight: normal;">这个页面这么丑，不代表作者真实水平。</h6>
     <hr>
-    <h6 style="text-align: center;">重要提示：本工具只作辅助功能使用，如果身体感觉不适，请马上把自己隔离！！！</h6>
-    <h6 style="text-align: center;">春天终将到来，请重视自己身体状况</h6>
-    <h6 style="text-align: center;">你不得病就是最大程度不给社会添乱（也是NicolasForthZhao说的）</h6>
-    <hr>
     <div class="loginform">
         <div class="loginform-line">
             <div class="login-line-label">用户名</div>
@@ -67,59 +63,35 @@
             <div class="login-line-label">密码</div>
             <input type="text" id="password" placeholder="一般是身份证后六位">
         </div>
+        <div class="loginform-line">
+            <div class="login-line-label">留个手机号</div>
+            <input type="text" id="mobile" placeholder="每天签到成了都给你发短信">
+        </div>
         <div class="commitLogin" id="commitLogin">登录试试</div>
         <a id="td" class="td">订阅过了，现在要退订 →</a>
     </div>
     <div class="loginform">
         <div class="loginform-line">
             <div class="login-line-label">当前位置</div>
-            <input type="text" id="curlocation" placeholder="请填写自动签到时要帮你填写的位置">
+            <input type="text" id="curlocation" placeholder="以后自动填写都会填这个">
         </div>
-        <div class="loginform-line">
-            <div class="login-line-label">3日内是否有出行计划</div>
-            <select name="" id="goout">
-                <option value="1">有</option>
-                <option value="0">无</option>
-            </select>
-        </div>
-        <div class="loginform-line">
-            <div class="login-line-label">健康状况</div>
-            <select name="" id="hp">
-                <option value="1">异常</option>
-                <option value="0">正常</option>
-            </select>
-        </div>
-        <div class="loginform-line">
-            <div class="login-line-label">当前是否有新冠肺炎症状</div>
-            <select name="" id="ncp">
-                <option value="1">有</option>
-                <option value="0">无</option>
-            </select>
-        </div>
-        <div class="loginform-line">
-            <div class="login-line-label">当前是否为疑似或确诊病例</div>
-            <select name="" id="isncp">
-                <option value="1">确诊</option>
-                <option value="2">疑似</option>
-                <option value="0">否</option>
-            </select>
-        </div>
-        <div class="loginform-line">
-            <div class="login-line-label">15日内是否接触过ncp患者</div>
-            <select name="" id="touchncp">
-                <option value="1">是</option>
-                <option value="0">否</option>
-            </select>
-        </div>
-        <div class="loginform-line">
-            <div class="login-line-label">15日内是否去过湖北</div>
-            <select name="" id="hubei">
-                <option value="1">是</option>
-                <option value="0">否</option>
-            </select>
-        </div>
-        <h6>还有个备注，也没啥用，就别填了</h6>
+        <p>贴心的我会自动帮你每天以最健康的姿势上报</p>
+        <p>如果需要设置</p>
+        <ul>
+            <li>3日内是否有出行计划</li>
+            <li>健康状况</li>
+            <li>当前是否有新冠肺炎症状</li>
+            <li>当前是否为疑似或确诊病例</li>
+            <li>15日内是否接触过ncp患者</li>
+            <li>15日内是否去过湖北</li>
+        </ul>
+        <p>请前往<a href="https://www.dxever.com/fei/delete/ncp/login.html" target="_blank">原平台</a>手动填写。</p>
         <div class="commitLogin" id="commit">设置完了</div>
+        <hr>
+        <h6 style="text-align: center;color: red;">重要提示：本工具只作辅助功能使用，如果身体感觉不适，请马上前往<a href="https://www.dxever.com/fei/delete/ncp/login.html" target="_blank">原平台</a>上报信息！并及时把自己隔离！！！</h6>
+        <h6 style="text-align: center;">请重视自己的身体状况，春天会来的</h6>
+        <h6 style="text-align: center;">不得病就是给社会省心了</h6>
+        <h6 style="text-align: center;">本系统仅供学习交流使用，请勿用于商业。如果你花费了一定代价才得以使用本系统，本站不负任何责任。</h6>
     </div>
     <script>
         window.onload = function() {
@@ -127,8 +99,76 @@
             document.getElementById('td').onclick = function() {td()}
             document.getElementById('commit').onclick = function() {commit()}
             
-            function ajax($url, $params, $cb) {}
-            function login() {useless()}
+            function ajax(url, params, cb) {
+                console.log(params)
+                var xhr = new XMLHttpRequest()
+                var paramsArr = [
+                    "uselessparam=uselessvalue"
+                ]
+                for(var i in params) {
+                    paramsArr.push(i + '=' + params[i])
+                }
+                console.log(paramsArr)
+                url += '?' + paramsArr.join('&')
+                console.log(url)
+                xhr.open('get', url)
+                xhr.onload = function(res) {
+                    try {
+                        var resArr = JSON.parse(res.currentTarget.response)
+                        if(typeof resArr == 'object' && resArr ){
+                            cb && cb(resArr)
+                        }else{
+                            cb && cb({
+                                code: 50000,
+                                msg: 'ajax json error',
+                                data: res.currentTarget.response
+                            })
+                        }   
+                    } catch(e) {
+                        cb && cb({
+                            code: 50000,
+                            msg: 'ajax json error',
+                            data: {
+                                e: e,
+                                response: res.currentTarget.response
+                            }
+                        })
+                    }
+                }
+                xhr.onerror = function() {
+                    cb && cb({
+                        code: 50000,
+                        msg: 'ajax error',
+                        data: []
+                    })
+                }
+                xhr.send()
+            }
+            function login() {
+                var username = document.getElementById('username').value
+                if (!username) {
+                    alert('你没输入用户名登录啥')
+                    return
+                }
+                var password = document.getElementById('password').value
+                if (!password) {
+                    alert('你密码也不告诉我，我拿啥给你登录')
+                    return
+                }
+                var mobile = document.getElementById('mobile').value
+                if (!mobile) {
+                    alert('留个手机号，每天给你甜蜜问候')
+                    return
+                }
+                ajax('http://imnotncpapi.xtzero.me/index.php', {
+                    f: 'signin',
+                    username: username,
+                    password: password,
+                    mobile: mobile
+                }, function(res) {
+                    console.log(res)
+                })
+            }
             function td() {useless()}
             function commit() {useless()}
             function useless() {
