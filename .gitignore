@@ -1,4 +1,4 @@
 data/log/checkin_*
 data/log/log_*
 data/userconfig/user_config_*
-commandLineTools/autoReport.example.php
+commandLineTools/autoReport.php
