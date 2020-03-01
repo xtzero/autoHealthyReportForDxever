@@ -16,6 +16,7 @@ foreach($usernameArr as $k => $v) {
     $userConfigFilename = $baseDir."/data/userconfig/user_config_{$v}.php";
     if (!file_exists($userConfigFilename)) continue;
     $userConfig = include_once($userConfigFilename);
+    if ($userConfig['valid'] == 0) continue;
     $dxeverLogin = json_decode(curl_post($systemConfig['apis']['login'], [
         'studno' => $userConfig['username'],
         'password' => $userConfig['idcard']
