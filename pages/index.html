@@ -63,17 +63,18 @@
             <div class="login-line-label">密码</div>
             <input type="text" id="password" placeholder="一般是身份证后六位">
         </div>
-        <div class="loginform-line">
-            <div class="login-line-label">留个手机号</div>
-            <input type="text" id="mobile" placeholder="每天签到成了都给你发短信">
-        </div>
         <div class="commitLogin" id="commitLogin">登录试试</div>
         <a id="td" class="td">订阅过了，现在要退订 →</a>
     </div>
-    <div class="loginform">
+    <div class="loginform" id="signinform">
+        <h1>已经登录：<span id="name">..</span></h1>
         <div class="loginform-line">
             <div class="login-line-label">当前位置</div>
             <input type="text" id="curlocation" placeholder="以后自动填写都会填这个">
+        </div>
+        <div class="loginform-line">
+            <div class="login-line-label">留个手机号</div>
+            <input type="text" id="mobile" placeholder="每天签到成了都给你发短信">
         </div>
         <p>贴心的我会自动帮你每天以最健康的姿势上报</p>
         <p>如果需要设置</p>
@@ -87,6 +88,8 @@
         </ul>
         <p>请前往<a href="https://www.dxever.com/fei/delete/ncp/login.html" target="_blank">原平台</a>手动填写。</p>
         <div class="commitLogin" id="commit">设置完了</div>
+    </div>
+    <div>
         <hr>
         <h6 style="text-align: center;color: red;">重要提示：本工具只作辅助功能使用，如果身体感觉不适，请马上前往<a href="https://www.dxever.com/fei/delete/ncp/login.html" target="_blank">原平台</a>上报信息！并及时把自己隔离！！！</h6>
         <h6 style="text-align: center;">请重视自己的身体状况，春天会来的</h6>
@@ -95,6 +98,7 @@
     </div>
     <script>
         window.onload = function() {
+            document.getElementById('signinform').style.display = 'none'
             document.getElementById('commitLogin').onclick = function() {login()}
             document.getElementById('td').onclick = function() {td()}
             document.getElementById('commit').onclick = function() {commit()}
@@ -145,6 +149,9 @@
                 xhr.send()
             }
             function login() {
+                if (document.getElementById('commitLogin').innerHTML != '登录试试') {
+                    return
+                }
                 var username = document.getElementById('username').value
                 if (!username) {
                     alert('你没输入用户名登录啥')
@@ -155,22 +162,86 @@
                     alert('你密码也不告诉我，我拿啥给你登录')
                     return
                 }
+                document.getElementById('commitLogin').innerHTML = '登录中'
+                ajax('http://imnotncpapi.xtzero.me/index.php', {
+                    f: 'signin',
+                    username: username,
+                    password: password
+                }, function(res) {
+                    document.getElementById('commitLogin').innerHTML = '登录试试'
+                    if (res.code == 201) {
+                        document.getElementById('name').innerHTML = res.data.name
+                        document.getElementById('signinform').style.display = 'inline'
+                    } else {
+                        alert(res.msg)
+                    }
+                })
+            }
+            function td() {
+                var username = document.getElementById('username').value
+                if (!username) {
+                    alert('请在上方输入用户名和密码登录，再点击这个退订')
+                    return
+                }
+                var password = document.getElementById('password').value
+                if (!password) {
+                    alert('请在上方输入用户名和密码登录，再点击这个退订')
+                    return
+                }
+                if (confirm('确定要退订吗？')) {
+                    ajax('http://imnotncpapi.xtzero.me/index.php', {
+                        f: 'td',
+                        username: username,
+                        password: password
+                    }, function(res) {
+                        if (res.code == 200) {
+                            alert('退订成功！')
+                        } else {
+                            alert(res.msg)
+                        }
+                    })
+                }
+            }
+            function commit() {
+                if (document.getElementById('commit').innerHTML != '设置完了') {
+                    return
+                }
                 var mobile = document.getElementById('mobile').value
                 if (!mobile) {
                     alert('留个手机号，每天给你甜蜜问候')
                     return
                 }
+                var username = document.getElementById('username').value
+                if (!username) {
+                    alert('你没输入用户名登录啥')
+                    return
+                }
+                var password = document.getElementById('password').value
+                if (!password) {
+                    alert('你密码也不告诉我，我拿啥给你登录')
+                    return
+                }
+                var curlocation = document.getElementById('curlocation').value
+                if (!curlocation) {
+                    alert('你得告诉我个地址，我才能每天自动给你登啊')
+                    return
+                }
+                document.getElementById('commit').innerHTML != '提交中'
                 ajax('http://imnotncpapi.xtzero.me/index.php', {
                     f: 'signin',
                     username: username,
                     password: password,
-                    mobile: mobile
+                    mobile: mobile,
+                    curlocation: curlocation
                 }, function(res) {
-                    console.log(res)
+                    document.getElementById('commit').innerHTML != '设置完了'
+                    if (res.code == 200) {
+                        alert("完事了！\n\n每天清晨10点给你自动签到，成功后会给你发短信。\n要是没短信，就是失败了。\n\n要是不想用了，点登录按钮下边的取消订阅就行了。")
+                    } else {
+                        alert(res.msg)
+                    }
                 })
             }
-            function td() {useless()}
-            function commit() {useless()}
             function useless() {
                 alert('还没做完，不能用，见笑嗷')
             }
