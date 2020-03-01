@@ -8,7 +8,7 @@ $logFileName = $baseDir."/data/log/log_".date('Ymd').".log";
 if (!file_exists($logFileName)) {
     touch($logFileName);
 }
-$logFile = fopen($logFileName, 'w');
+$logFile = fopen($logFileName, 'a+');
 fwrite($logFile, '');
 $resEcho = [];
 foreach($usernameArr as $k => $v) {
@@ -16,7 +16,13 @@ foreach($usernameArr as $k => $v) {
     $userConfigFilename = $baseDir."/data/userconfig/user_config_{$v}.php";
     if (!file_exists($userConfigFilename)) continue;
     $userConfig = include_once($userConfigFilename);
-    if ($userConfig['valid'] == 0) continue;
+    if ($userConfig['valid'] == 0) {
+        $resEcho = array_merge($resEcho, [
+            "该用户退订，取消签到.username:",
+            $userConfig['username']
+        ]);
+        goto finish;
+    }
     $dxeverLogin = json_decode(curl_post($systemConfig['apis']['login'], [
         'studno' => $userConfig['username'],
         'password' => $userConfig['idcard']
@@ -62,18 +68,22 @@ foreach($usernameArr as $k => $v) {
         ]);
     }
 
+finish:
     $hisLogFilename = $baseDir."/data/log/checkin_{$userConfig['username']}_".date('Ymd').".log";
     if (!file_exists($hisLogFilename)) {
         touch($hisLogFilename);
     }
-    $hisLogFile = fopen($hisLogFilename, 'w');
+    $hisLogFile = fopen($hisLogFilename, 'a+');
     $writeHisLogFile = fwrite($hisLogFile, implode('', $resEcho));
     $totalLog = json_encode([
-        "userconfig" => $userConfig ?? [],
         "resEcho" => $resEcho,
+        "userconfig" => $userConfig ?? [],
         "writeHisLogFile" => $writeHisLogFile
     ]);
-    fputs($logFile, $totalLog."\n");
+    // file_put_contents($logFileName, $totalLog, FILE_APPEND);
+    fwrite($logFile, $totalLog."\n");
     fclose($hisLogFile);
     echo $totalLog;
 }
+
+fclose($logFile);
