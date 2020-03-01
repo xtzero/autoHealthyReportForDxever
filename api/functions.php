@@ -49,7 +49,7 @@ function sendSms_SubscribeSuccess($mobile, $name)
     $random = rand(100000, 999999);
     $time = time();
     $url = "https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=1400310523&random=".$random;
-    $sig = hash('sha256', "appkey=5fdbf07575749d4cba77e91d999a833d&random={$random}&time={$time}&mobile={$mobile}");
+    $sig = hash('sha256', "appkey={$APPKEY}&random={$random}&time={$time}&mobile={$mobile}");
     $smsData = [
         'params' => [
             $name
@@ -72,7 +72,7 @@ function sendSms_reportSuccess($mobile, $name)
     $random = rand(100000, 999999);
     $time = time();
     $url = "https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=1400310523&random=".$random;
-    $sig = hash('sha256', "appkey=5fdbf07575749d4cba77e91d999a833d&random={$random}&time={$time}&mobile={$mobile}");
+    $sig = hash('sha256', "appkey={$APPKEY}&random={$random}&time={$time}&mobile={$mobile}");
     $smsData = [
         'params' => [
             $name
