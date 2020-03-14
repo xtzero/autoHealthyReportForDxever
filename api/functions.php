@@ -89,3 +89,28 @@ function sendSms_reportSuccess($mobile, $name)
     $send = json_decode(sms_post($url, $smsData), true);
     return $send;
 }
+
+function sendSms_reportFailed($mobile, $name, $reason)
+{
+    $random = rand(100000, 999999);
+    $time = time();
+    $url = "https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=1400310523&random=".$random;
+    $sig = hash('sha256', "appkey=5fdbf07575749d4cba77e91d999a833d&random={$random}&time={$time}&mobile={$mobile}");
+    $smsData = [
+        'params' => [
+            $name,
+            date('H:i'),
+            $reason
+        ],
+        'sig' => $sig,
+        'sign' => 'Zero的个人主页',
+        'tel' => [
+            'mobile' => $mobile,
+            'nationcode' => '86'
+        ],
+        'time' => $time,
+        'tpl_id' => 545432
+    ];
+    $send = json_decode(sms_post($url, $smsData), true);
+    return $send;
+}

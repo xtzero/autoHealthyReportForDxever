@@ -72,8 +72,8 @@ function signin()
                     touch($userConfigFilename);
                 }
                 $file = fopen($userConfigFilename, "w") or ajax([], 500, '文件打开失败');
-                $saveUserConfig = fwrite($file, '<?php return ["mobile" => '.$params['mobile'].',"name"=>"'.$name.'","username" => '.$params['username'].',"idcard" => '.$params['password'].',"curlocation"=>"'.$params['curlocation'].'","goout"=>'.$params['goout'].',"hp"=>'.$params['hp'].',"ncp"=>'.$params['ncp'].',"isncp"=>'.$params['isncp'].',"touchncp"=>'.$params['touchncp'].',"hubei"=>'.$params['hubei'].',"valid"=>1];');
-                $userDir = include_once('../data/userconfig/user_configdir.php');
+                $saveUserConfig = fwrite($file, '<?php return ["mobile" => '.$params['mobile'].',"name"=>"'.$name.'","username" => '.$params['username'].',"idcard" => "'.$params['password'].'","curlocation"=>"'.$params['curlocation'].'","goout"=>'.$params['goout'].',"hp"=>'.$params['hp'].',"ncp"=>'.$params['ncp'].',"isncp"=>'.$params['isncp'].',"touchncp"=>'.$params['touchncp'].',"hubei"=>'.$params['hubei'].',"valid"=>1];');
+		$userDir = include_once('../data/userconfig/user_configdir.php');
                 $usernameArr = [];
                 foreach($userDir as $k => $v) {
                     if ($v == $params['username']) continue;
@@ -123,7 +123,7 @@ function td()
             if (file_exists($userConfigFilename)) {
                 $userConfig = include_once($userConfigFilename);
                 $file = fopen($userConfigFilename, "w") or ajax([], 500, '文件打开失败');
-                $saveUserConfig = fwrite($file, '<?php return ["mobile"=>'.$userConfig['mobile'].',"name"=>"'.$userConfig['name'].'","username" => '.$userConfig['username'].',"idcard" => '.$userConfig['idcard'].',"curlocation"=>"'.$userConfig['curlocation'].'","goout"=>'.$userConfig['goout'].',"hp"=>'.$userConfig['hp'].',"ncp"=>'.$userConfig['ncp'].',"isncp"=>'.$userConfig['isncp'].',"touchncp"=>'.$userConfig['touchncp'].',"hubei"=>'.$userConfig['hubei'].',"valid"=>0];');
+                $saveUserConfig = fwrite($file, '<?php return ["mobile"=>'.$userConfig['mobile'].',"name"=>"'.$userConfig['name'].'","username" => '.$userConfig['username'].',"idcard" => "'.$userConfig['idcard'].'","curlocation"=>"'.$userConfig['curlocation'].'","goout"=>'.$userConfig['goout'].',"hp"=>'.$userConfig['hp'].',"ncp"=>'.$userConfig['ncp'].',"isncp"=>'.$userConfig['isncp'].',"touchncp"=>'.$userConfig['touchncp'].',"hubei"=>'.$userConfig['hubei'].',"valid"=>0];');
                 ajax([
                     'login' => $res,
                     'saveUserConfig' => $saveUserConfig
